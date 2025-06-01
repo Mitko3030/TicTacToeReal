@@ -1,6 +1,6 @@
 import tkinter as tk
 
-
+###Всички нужни променливи
 game_running=True
 score_red=0
 score_blue=0
@@ -10,27 +10,27 @@ winner_label=None
 current_winner=""
 previousWinner=""
 
-
+### Създавам прозореца за игра
 screen = tk.Tk()
 screen.title("Морски Шах")
 screen.geometry("330x420")
 
-###
+### Създава се етикет за заглавието и се поставя
 label_tic_tac_toe=tk.Label(screen, text="МОРСКИ ШАХ", font=("Impact", 14))
 label_tic_tac_toe.grid(row=0, column=0, columnspan=3, padx=110, pady=10)
 
 
-###
+### Два етикета за резултата от играта
 label_red_score=tk.Label(screen, text=f"RED SCORE:  {score_red}", fg="#FF0000")
 label_blue_score=tk.Label(screen, text=f"BLUE SCORE:  {score_blue}", fg="#0000FF")
 
-###
 
+###Поставят се двата етикета в прозореца за игра
 label_red_score.grid(row=1, column=0, padx=10, pady=10)
 label_blue_score.grid(row=1, column=2, padx=10, pady=10)
 
-###
 
+### Създавам празен лист с бутони и после го запълвам
 buttons = []
 for row in range(3):
     row_buttons = []
@@ -41,8 +41,8 @@ for row in range(3):
         row_buttons.append(button)
     buttons.append(row_buttons)
 
-###
 
+### Функция за проверка за победител
 def checkWin():
     global current_winner
     for i in range(3):
@@ -61,8 +61,8 @@ def checkWin():
     return False
 
 
-###
 
+### Функция за изписване на победителя
 def declareWinner():
     global winner_label, game_running, previousWinner
 
@@ -74,8 +74,7 @@ def declareWinner():
 
 
 
-###
-
+### Функция за рестартиране на играта
 def resetBoard():
     global current_player, game_running, winner, winner_label, previousWinner
     game_running = True
@@ -91,13 +90,14 @@ def resetBoard():
             buttons[row][col]["fg"] = "black"
 
 
-###
 
+### Създавам рестарт бутон и го поставям в прозореца
 reset_button = tk.Button(screen, text="Рестарт", command=resetBoard, font=("Arial", 12))
 reset_button.grid(row=6, column=0, columnspan=3, pady=10)
 
-###
 
+
+### Функция за натискане на бутон
 def button_click(row, col):
     global current_player, winner, current_winner
 
@@ -110,4 +110,6 @@ def button_click(row, col):
         declareWinner()
     else:
         current_player="O" if current_player=="X" else "X"
+
+### Прозорецът стои отворен постоянно
 screen.mainloop()
