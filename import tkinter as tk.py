@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import random
 ###Всички нужни променливи
 game_running=True
 score_red=0
@@ -9,6 +9,7 @@ winner=False
 winner_label=None
 current_winner=""
 previousWinner=""
+game_mode_var="bot"
 
 ### Създавам прозореца за игра
 screen = tk.Tk()
@@ -20,6 +21,17 @@ label_tic_tac_toe=tk.Label(screen, text="МОРСКИ ШАХ", font=("Impact", 1
 label_tic_tac_toe.grid(row=0, column=0, columnspan=3, padx=110, pady=10)
 
 
+
+### Избирам между бот и човек
+game_mode_var = tk.StringVar(value="bot")
+player_bot = tk.Radiobutton(screen, text="Срещу Човек", variable=game_mode_var, value="player")
+player_person = tk.Radiobutton(screen, text="Срещу Бот", variable=game_mode_var, value="bot")
+
+### Изписвам ги
+player_bot.grid(row=8, column=2, padx=10, pady=10)
+player_person.grid(row=8, column=0, padx=10, pady=10)
+
+
 ### Два етикета за резултата от играта
 label_red_score=tk.Label(screen, text=f"RED SCORE:  {score_red}", fg="#FF0000")
 label_blue_score=tk.Label(screen, text=f"BLUE SCORE:  {score_blue}", fg="#0000FF")
@@ -28,6 +40,8 @@ label_blue_score=tk.Label(screen, text=f"BLUE SCORE:  {score_blue}", fg="#0000FF
 ###Поставят се двата етикета в прозореца за игра
 label_red_score.grid(row=1, column=0, padx=10, pady=10)
 label_blue_score.grid(row=1, column=2, padx=10, pady=10)
+
+
 
 
 ### Създавам празен лист с бутони и после го запълвам
@@ -90,11 +104,29 @@ def resetBoard():
             buttons[row][col]["fg"] = "black"
 
 
-
 ### Създавам рестарт бутон и го поставям в прозореца
 reset_button = tk.Button(screen, text="Рестарт", command=resetBoard, font=("Arial", 12))
-reset_button.grid(row=6, column=0, columnspan=3, pady=10)
+reset_button.grid(row=8, column=1, columnspan=1, pady=10)
 
+
+
+### Функция за бота (прави случайни ходове)
+def bot_move():
+    global current_player, game_running
+
+    if not game_running:
+        return
+
+    empty_positions = [(r,c)for r in range(3) for c in range(3) if buttons[r][c]["text"] == ""]
+    if empty_positions:
+        r, c = random.choice(empty_positions)
+        buttons[r][c]["text"] = current_player
+        buttons[r][c]["fg"] = "blue"
+
+        if checkWin():
+            declareWinner()
+        else:
+            current_player = "X"  # Превключва обратно към играча
 
 
 ### Функция за натискане на бутон
@@ -108,8 +140,16 @@ def button_click(row, col):
 
     if checkWin():
         declareWinner()
-    else:
-        current_player="O" if current_player=="X" else "X"
+
+    else:      # Срещу бот
+        if game_mode_var.get() == "bot":  
+            current_player = "O"
+            bot_move()
+        else:  # Двама играчи
+            current_player = "O" if current_player == "X" else "X"
+
+
+
 
 ### Прозорецът стои отворен постоянно
 screen.mainloop()
