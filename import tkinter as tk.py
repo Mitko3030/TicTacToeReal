@@ -1,6 +1,6 @@
 import tkinter as tk
-import random
 import winsound
+### По-добро качество
 import ctypes
 try:
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
@@ -94,10 +94,9 @@ def checkWin():
 ### Функция за изписване на победителя
 def declareWinner():
     global winner_label, game_running, score_red, score_blue
-
     game_running=False
-
-    winsound.PlaySound("congratulations-deep-voice-172193.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+    if game_mode_var.get()!="bot":
+        winsound.PlaySound("congratulations-deep-voice-172193.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     winner_label=tk.Label(screen, text=f"Winner is: {current_winner}", fg="green", font=("Arial", 15, "bold"), bg="#222831")
     winner_label.grid(row=9, column=0, columnspan=3, pady=10)
@@ -133,11 +132,10 @@ reset_button.grid(row=8, column=1, columnspan=1, pady=10)
 
 
 
-
+ 
 ### Функция за хода на бота
 def bot_move():
     global current_player, game_running
-
     if not game_running:
         return
 
@@ -160,6 +158,9 @@ def bot_move():
         buttons[r][c]["text"] = "O"
         buttons[r][c]["fg"] = "blue"
 
+
+        
+        
         if checkWin():
             declareWinner()
         else:
@@ -182,7 +183,9 @@ def button_click(row, col):
     else:      # Срещу бот
         if game_mode_var.get() == "bot":  
             current_player = "O"
-            bot_move()
+            screen.after(300, bot_move)
+        
+
         else:  # Двама играчи
             current_player = "O" if current_player == "X" else "X"  
     
