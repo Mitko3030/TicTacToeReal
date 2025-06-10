@@ -179,13 +179,12 @@ def button_click(row, col):
 
     if checkWin():
         declareWinner()
-
+    elif is_board_full():
+        declareDraw()
     else:      # Срещу бот
         if game_mode_var.get() == "bot":  
             current_player = "O"
             screen.after(300, bot_move)
-        
-
         else:  # Двама играчи
             current_player = "O" if current_player == "X" else "X"  
     
@@ -214,6 +213,11 @@ def is_board_full():
     return all(buttons[r][c]["text"] != "" for r in range(3) for c in range(3))
 
 
+def declareDraw():
+    global winner_label, game_running
+    game_running = False
+    winner_label = tk.Label(screen, text="Равенство!", fg="orange", font=("Arial", 15, "bold"), bg="#222831")
+    winner_label.grid(row=9, column=0, columnspan=3, pady=10)
 
 
 ### Функция за намиране на най-добрия ход за бота
@@ -250,6 +254,7 @@ def minimax(board, depth, is_maximizing, alpha=-float("inf"), beta=float("inf"))
                     if beta <= alpha:
                         break
         return best_score
+
 
 
 ### Прозорецът стои отворен постоянно
