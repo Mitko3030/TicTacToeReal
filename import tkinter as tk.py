@@ -108,6 +108,13 @@ def declareWinner():
         label_blue_score.config(text=f"BLUE SCORE:  {score_blue}")
     
 
+### Функция за обявяване на равенство
+def declareDraw():
+    global winner_label, game_running
+    game_running = False
+    winner_label = tk.Label(screen, text="Равенство!", fg="orange", font=("Arial", 15, "bold"), bg="#222831")
+    winner_label.grid(row=9, column=0, columnspan=3, pady=10)
+
 
 ### Функция за рестартиране на играта
 def resetBoard():
@@ -132,7 +139,6 @@ reset_button.grid(row=8, column=1, columnspan=1, pady=10)
 
 
 
- 
 ### Функция за хода на бота
 def bot_move():
     global current_player, game_running
@@ -213,11 +219,6 @@ def is_board_full():
     return all(buttons[r][c]["text"] != "" for r in range(3) for c in range(3))
 
 
-def declareDraw():
-    global winner_label, game_running
-    game_running = False
-    winner_label = tk.Label(screen, text="Равенство!", fg="orange", font=("Arial", 15, "bold"), bg="#222831")
-    winner_label.grid(row=9, column=0, columnspan=3, pady=10)
 
 
 ### Функция за намиране на най-добрия ход за бота
