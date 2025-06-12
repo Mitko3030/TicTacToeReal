@@ -96,7 +96,7 @@ def declareWinner():
     global winner_label, game_running, score_red, score_blue
     game_running=False
     if game_mode_var.get()!="bot":
-        winsound.PlaySound("congratulations-deep-voice-172193.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+        winsound.PlaySound("dirty-siren-40635.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     winner_label=tk.Label(screen, text=f"Winner is: {current_winner}", fg="green", font=("Arial", 15, "bold"), bg="#222831")
     winner_label.grid(row=9, column=0, columnspan=3, pady=10)
@@ -112,7 +112,7 @@ def declareWinner():
 def declareDraw():
     global winner_label, game_running
     game_running = False
-    winner_label = tk.Label(screen, text="Равенство!", fg="orange", font=("Arial", 15, "bold"), bg="#222831")
+    winner_label = tk.Label(screen, text="Draw!", fg="orange", font=("Arial", 15, "bold"), bg="#222831")
     winner_label.grid(row=9, column=0, columnspan=3, pady=10)
 
 
